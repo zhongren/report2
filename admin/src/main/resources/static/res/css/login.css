@@ -59,7 +59,7 @@ a.logo{
 .message {
     margin: 10px 0 0 -58px;
     padding: 18px 10px 18px 60px;
-    background: #0175EE; 
+    background: #409EFF;
     position: relative;
     color: #fff;
     font-weight:bolder;
@@ -130,7 +130,7 @@ input[type=button]{
     vertical-align: middle;
     cursor: pointer;
     color: #ffffff;
-    background-color: #0175EE;
+    background-color: #409EFF;
     border-radius: 3px;
     border: none;
     -webkit-appearance: none;

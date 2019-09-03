@@ -30,7 +30,7 @@ body{
 }
 
 .theme-blue{
-	 background-color:#0175EE;  
+	 background-color:#409EFF;
 	/* background-image: url("../images/header-bg.jpg"); */
 }
 
@@ -129,7 +129,7 @@ body{
 	right:10px;
 	overflow:auto;
 	/* padding:10px; */
-	background-color:#fff; 
+	background-color:#fff;
 	background-color:#f2f2f2;
 	border-radius:4px;
 	/* border:1px solid #d6d6d6 ;
@@ -179,13 +179,13 @@ body{
 }
 
 .knit-menu .glyphicon{
-	color:#0175EE ;
+	color:#409EFF ;
 }
 
 .knit-menu-subject{
 	display: block;
     padding: 10px;
-    color: #0175EE;
+    color: #409EFF;
     font-size: 15px;
     border-bottom: 1px solid #e8e5e5;
     font-weight:bolder;
@@ -217,7 +217,7 @@ body{
 }
 .knit-menu ul li>ul li>a:hover{
 	background-color:#fff;
-	color:#0175EE;
+	color:#409EFF;
 }
 
 .knit-menu ul li>ul::before{
@@ -242,7 +242,7 @@ body{
 }
 
 .knit-active{
-	background-color:#0175EE !important;
+	background-color:#409EFF !important;
 	color 	: 	#fff !important ;
 }
 
@@ -546,7 +546,7 @@ table.table-hover tbody td:hover{
     padding-top: 20px;
 }
 .knit-upload-label a .knit-upload-label>li{
-	color:#0175ee;
+	color:#409EFF;
 	text-decoration:none;
 }
 
@@ -680,20 +680,20 @@ table.table-hover tbody td:hover{
 	white-space:nowrap;
 }
 
-.btn-info , 
-.btn-info:link , 
-.btn-info:active , 
+.btn-info ,
+.btn-info:link ,
+.btn-info:active ,
 .btn-info:active:hover ,
-.btn-info:visited , 
+.btn-info:visited ,
 .btn-info:focus ,
-.btn-primary , 
-.btn-primary:link , 
-.btn-primary:active , 
+.btn-primary ,
+.btn-primary:link ,
+.btn-primary:active ,
 .btn-primary:active:hover ,
-.btn-primary:visited , 
-.btn-primary:focus { 
+.btn-primary:visited ,
+.btn-primary:focus {
 	color: #fff;
-    background-color: #0175EE;
+    background-color: #409EFF;
     border-color: #0175EE;
 }
 .btn-info:hover , .btn-primary:hover {
@@ -713,10 +713,10 @@ table.table-hover tbody td:hover{
 	border:1px solid #e6e6e6 ;
 	border-radius:2px ;
 	-webkit-box-shadow: none;
-    box-shadow: none ; 
-    -webkit-transition:none; 
+    box-shadow: none ;
+    -webkit-transition:none;
     -o-transition: none;
-    transition: none; 
+    transition: none;
 }
 
 

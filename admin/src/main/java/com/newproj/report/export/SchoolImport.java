@@ -263,16 +263,16 @@ public class SchoolImport extends RestActionSupporter{
 			int errorcount = 0 ;
 			for(int i=1 ; i<list.size() ; i++) {
 				List<String>  records = list.get(i);
-				if(records.size()<6) {
+				if(records.size()<5) {
 					return error(1, "excel模板不正确");
 				}
 				String schoolCode = records.get(0);
 				String schoolName = records.get(1);
 				//String city = records.get(2);
 				//String country = records.get(3);
-				String jubantype = records.get(4);
-				String banxueType = records.get(5);
-				String eduName = records.get(6);
+				String jubantype = records.get(2);
+				String banxueType = records.get(3);
+				String eduName = records.get(4);
 
 
 				if (StringUtils.isNotBlank(schoolCode) && StringUtils.isNotBlank(eduName)
@@ -326,6 +326,7 @@ public class SchoolImport extends RestActionSupporter{
 			}
 			msgList.add(String.format("<font color='red'>处理结果：本次导入成功%s条,失败%s条</font>", successcout+"",errorcount+""));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return error(1, "服务器异常");
 		}
 		return success(msgList);
