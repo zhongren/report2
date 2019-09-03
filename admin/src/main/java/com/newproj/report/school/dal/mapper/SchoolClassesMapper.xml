@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SchoolClassesMapper">
+	<select id="getClassesNums" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select count(*) from tb_school_class as cn inner join
+		tb_school as c
+		on c.id = cn.school_id
+		where c.county = #{cid} and cn.year = #{year} and cn.name_num > #{min_name_num} and cn.name_num &lt; #{max_name_num}
+		and nums &lt;= #{nums}
+	</select>
+
+	<select id="getSchoolNums" parameterType="java.util.Map" resultType="java.lang.Integer">		
+		select count(id) from (select MAX(nums) as nums,c.id ,c.name from  tb_school_class as cn inner join tb_school as c
+   				on c.id = cn.school_id 
+ 		 where c.county=#{cid} and cn.year = #{year} and cn.name_num > #{min_name_num} and cn.name_num &lt; #{max_name_num}
+		 GROUP BY cn.school_id ) as newt where nums &lt;= #{nums}
+	</select>
+	
+	<select id="getNumsMax" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select nums from  tb_school_class where name_num > #{min_name_num} and name_num &lt; #{max_name_num} ORDER BY nums desc limit 1
+	</select>
+	
+	<select id="getAllClassesNums" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from tb_school_class as
+		cn inner join tb_school as c
+		on c.id = cn.school_id
+		where c.county = #{cid} and cn.year = #{year}
+		and cn.name_num > #{min_name_num} and cn.name_num &lt; #{max_name_num}
+	</select>
+	
+	<select id="getAllSchoolNums" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(DISTINCT cn.school_id) from tb_school_class as
+		cn inner join tb_school as c
+		on c.id = cn.school_id
+		where c.county = #{cid} and cn.year = #{year}
+		and cn.name_num > #{min_name_num} and cn.name_num &lt; #{max_name_num}
+	</select>
+	
+	<select id="getClassSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from tb_school_class as cn 
+		where  cn.school_id=#{sid}  and cn.year = #{year} and cn.name_num > #{min_name_num} and cn.name_num &lt; #{max_name_num}
+		and cn.nums>#{nums}
+	</select>
+	
+	
+	
+	
+	
+
+</mapper>

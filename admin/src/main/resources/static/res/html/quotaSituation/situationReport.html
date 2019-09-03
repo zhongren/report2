@@ -1,0 +1,378 @@
+<article>
+	<section class='knit-pain'>
+		<fieldset>
+			<legend>报表统计下载</legend>
+			<div class='row' data-group='g01' ng-if="showIfRole(['SCHOOL','COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载学校标准化建设监测常态数据表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g01-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-id='g01-2' data-param='parentId' data-parent='[data-id=g01-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='schoolId' data-title='请选择学校' data-parent='[data-id=g01-2]' data-param='county' data-ajax='school/option' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='schoolAuditing/reportingData/{schoolId}/export' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g02' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>按采集项名称下载小学学校标准化建设常态数据表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' data-required='false' name='cityId' data-title='请选择市' data-id='g02-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' data-required='false' name='countyId' data-title='请选择区县' data-id='g02-2' data-param='parentId' data-parent='[data-id=g02-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='collectionId' data-title='选择采集项' data-ajax='collection/type/1' data-key='id' data-text='$title' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/schoolWithCollection/{collectionId}/1' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class='row' data-group='g03' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>按采集项名称下载初中学校标准化建设常态数据表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' data-required='false' name='cityId' data-title='请选择市' data-id='g03-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' data-required='false' name='countyId' data-title='请选择区县' data-id='g03-2' data-param='parentId' data-parent='[data-id=g03-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='collectionId' data-title='选择采集项' data-ajax='collection/type/2' data-key='id' data-text='$title' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/schoolWithCollection/{collectionId}/2' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class='row' data-group='g17' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>按采学校类型下载准化建设常态数据表(excel)</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' data-required='false' name='cityId' data-title='请选择市' data-id='g03-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' data-required='false' name='countyId' data-title='请选择区县' data-id='g03-2' data-param='parentId' data-parent='[data-id=g03-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='schoolType' data-title='学校类型' data-ajax='school/type?size=0' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='export/sc/all' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+	  		<div class='row' data-group='g04' ng-if="showIfRole(['SCHOOL','COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载学校标准化建设监测点达标情况</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g04-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-id='g04-2' data-param='parentId' data-parent='[data-id=g04-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='schoolId' data-title='请选择学校' data-parent='[data-id=g04-2]' data-param='county' data-ajax='school/option' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/school/{schoolId}' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g05' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载县(市、区)义务教育学校标准化建设小学监测点达标情况</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g05-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-param='parentId' data-parent='[data-id=g05-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/1' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class='row' data-group='g06' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载县(市、区)义务教育学校标准化建设初中监测点达标情况</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g06-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-param='parentId' data-parent='[data-id=g06-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/2' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g07' ng-if="showIfRole(['COUNTY','CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载县(市、区)义务教育学校标准化建设基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g07-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-param='parentId' data-parent='[data-id=g07-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g08' ng-if="showIfRole(['CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载市义务教育学校标准化建设小学监测点达标情况</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/1' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class='row' data-group='g09' ng-if="showIfRole(['CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载市义务教育学校标准化建设初中监测点达标情况</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/2' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g10' ng-if="showIfRole(['CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载市义务教育学校标准化建设基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g10-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-param='parentId' data-parent='[data-id=g10-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class='row' data-group='g11'  ng-if="showIfRole(['CITY','PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载市义务教育学校标准化建设监测县（区、市）基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+					<div class='row'>
+						<div class='col-xs-4' data-error>
+							<select class='form-control' name='cityId' data-title='请选择市' data-id='g11-1' data-ajax='city/optionCity' data-key='id' data-text='$name' ></select>
+						</div>
+						<div class='col-xs-4'  data-error>
+							<select class='form-control' name='countyId' data-title='请选择区县' data-param='parentId' data-parent='[data-id=g11-1]' data-ajax='city/optionCounty' data-key='id' data-text='$name' ></select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g12'  ng-if="showIfRole(['PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载全省义务教育学校标准化建设小学监测点基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/1' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g13' ng-if="showIfRole(['PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载全省义务教育学校标准化建设初中监测点基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='situationReport/eduinst/2' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g14' ng-if="showIfRole(['PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载全省义务教育学校标准化建设县（区、市）基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g15' ng-if="showIfRole(['PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载全省义务教育学校标准化建设县（区、市）基本达标情况表</div>
+				</div>
+				<div class='col-xs-6'>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class='row' data-group='g16' ng-if="showIfRole(['PROVINCE'])">
+				<div class='col-xs-5'>
+					<div>下载全省义务教育学校标准化建设完全达标学校名单</div>
+				</div>
+				<div class='col-xs-6'>
+				</div>
+				<div class='col-xs-1'>
+					<div>
+						<a href='javascript:;' data-download-btn data-export-url='http://导出地址.com' class='btn btn-primary'>
+							<i class='glyphicon glyphicon-download-alt'></i>
+							下载
+						</a>
+					</div>
+				</div>
+			</div>  
+		</fieldset>
+	</section>
+</article>

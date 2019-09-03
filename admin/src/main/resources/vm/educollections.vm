@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>顾锦江</Author>
+  <LastAuthor>Windows 用户</LastAuthor>
+  <Created>2018-01-09T21:25:31Z</Created>
+  <LastSaved>2018-11-08T11:35:30Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <CustomDocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <KSOProductBuildVer dt:dt="string">2052-1.2.5.490</KSOProductBuildVer>
+ </CustomDocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>10245</WindowHeight>
+  <WindowWidth>24720</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>0</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+  <DisplayInkNotes>False</DisplayInkNotes>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial" x:Family="Swiss"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s70">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="采集项">
+  <Names>
+   <NamedRange ss:Name="_FilterDatabase" ss:RefersTo="=采集项!R1C1:R2C160"
+    ss:Hidden="1"/>
+  </Names>
+  <Table   x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="12.9375">
+   <Column ss:AutoFitWidth="0" ss:Width="78"/>
+   <Column ss:AutoFitWidth="0" ss:Width="148.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="42.75"/>
+   <Column ss:Width="54"/>
+   <Column ss:AutoFitWidth="0" ss:Width="114.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="78"/>
+   <Column ss:AutoFitWidth="0" ss:Width="64.5"/>
+   <Column ss:Index="26" ss:Width="65.25"/>
+   <Row ss:AutoFitHeight="0" ss:Height="119.625" ss:StyleID="s70">
+    <Cell><Data ss:Type="String">教育局代码</Data><NamedCell ss:Name="_FilterDatabase"/></Cell>
+    <Cell><Data ss:Type="String">教育局名称</Data><NamedCell ss:Name="_FilterDatabase"/></Cell>
+    #foreach($item in $namses)
+    <Cell><Data ss:Type="String">$!{item}</Data><NamedCell ss:Name="_FilterDatabase"/></Cell>
+    #end
+   </Row>
+    #foreach($s in $euds)
+   <Row ss:AutoFitHeight="0">
+      <Cell><Data ss:Type="String">$!{s.code}</Data></Cell>
+      <Cell><Data ss:Type="String">$!{s.name}</Data></Cell>
+     #foreach($cl as $!{s.collections})
+      <Cell><Data ss:Type="String">$!{cl}</Data></Cell>
+     #end
+   </Row>
+  #end
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.51"/>
+    <Footer x:Margin="0.51"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <HorizontalResolution>300</HorizontalResolution>
+    <VerticalResolution>300</VerticalResolution>
+   </Print>
+   <PageBreakZoom>60</PageBreakZoom>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>5</ActiveRow>
+     <ActiveCol>4</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>C5</Range>
+   <Condition>
+    <Value1>AND(COUNTIF(C5, RC)&gt;1,NOT(ISBLANK(RC)))</Value1>
+    <Format Style='color:#9C0006;text-line-through:none;background:#FFC7CE;
+     mso-pattern:black none'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

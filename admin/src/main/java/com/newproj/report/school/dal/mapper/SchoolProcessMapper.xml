@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SchoolProcessMapper">
+
+	<select id="findAllCollectionByType"
+		parameterType="java.util.Map" resultType="java.util.Map">
+		select   count(c.quota_id) as all_count, 
+			     ( select count(*) from tb_school_collection where school_id=#{school_id} and report_id=#{report_id} and quota_id = c.quota_id) as school_count , 
+			     c.quota_id from  tb_collection as c 
+     		inner join tb_schooltype_collection as tc on  tc.collection_id = c.id 
+ 			where  tc.school_type = #{school_type}   GROUP BY  c.quota_id
+	</select>
+
+</mapper>

@@ -1,0 +1,24 @@
+<div>
+	<span ng-if="['text','number','radio'].indexOf( item.valueType ) != -1">
+		{{item.content}}
+	</span>
+	<span ng-if="['img'].indexOf( item.valueType ) != -1">
+		<img ng-src='{{src}}' data-role='subimg' ng-repeat="(k , src) in item.content" style='width:80px;height:80px'>
+	</span>
+	<span ng-if="['file'].indexOf( item.valueType ) != -1">
+		<ul class='knit-file-list'>
+			<li ng-repeat='file in item.content' ng-if='file'>
+				<a href='{{file}}' title='下载文件'>
+					<i class='glyphicon glyphicon-file'></i>
+					{{file.substring(file.lastIndexOf('\/')+1)}}
+				</a>
+			</li>
+		</ul>
+	</span>
+	<span ng-if="'group' == item.valueType">
+		<collection-display data-item='sub' ng-repeat='sub in item.group'></collection-display>
+	</span>
+	<span ng-if="'class-import' == item.valueType">
+		<classes-nums data-school-id='item.schoolId'></classes-nums>
+	</span>
+</div>

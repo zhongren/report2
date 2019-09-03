@@ -1,0 +1,31 @@
+<article>
+	<section>
+		<fieldset class='knit-fieldset' id='filter-group' >
+			<legend>
+				<i class='glyphicon glyphicon-filter'></i>
+				条件检索
+			</legend>
+			<filter-group data-meta='filterMeta' data-data='filterParam'/>
+		</fieldset>
+	</section>
+	<section>
+		<div class='knit-widget'>
+			<div class='knit-widget-title'>
+				<div class='knit-widget-icon'>
+					<i class='glyphicon glyphicon-th'></i>
+					{{view.dataTable.title ? view.dataTable.title : '数据列表'}}
+				</div>
+				<div class='knit-widget-tools'>
+					<i class='glyphicon glyphicon-refresh knit-btn'></i>
+				</div>
+			</div>
+			<div class='knit-widget-body'>
+				<table class='table table-hover table-bordered' id='data-list-table'>
+					<thead></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+</article>

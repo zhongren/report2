@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysMenuMapper">
+	<select id="findRoleMenus" parameterType="java.util.Map" resultType="java.util.Map">
+		select 
+			menu.id , menu.name , menu.parent_id , menu.url , menu.rank , menu.icon , menu.status
+		from 
+			tb_sys_menu as menu
+		<if test="roleId != null">
+			JOIN tb_sys_permission perm ON menu.id = perm.menu_id and perm.type = 1
+			JOIN tb_sys_role_permission rpmap ON perm.id = rpmap.permission_id 
+		</if>
+		<where>
+			menu.status = 0
+			<if test="roleId != null">
+				and rpmap.role_id = #{roleId,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by rank asc ;
+	</select>
+	
+</mapper>

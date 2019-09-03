@@ -1,0 +1,26 @@
+<form>
+	<div class='row' ng-repeat='row in meta'>
+		<div class='{{cell.className}}' ng-repeat='cell in row'>
+			<div class='knit-form-group' ng-if="!cell.type || ['textarea'].indexOf( cell.type ) == -1">
+				<div class='knit-form-label'>
+					<span class='required' ng-if="cell.validation && cell.validation.required"></span>
+					{{cell.label}}:
+				</div>
+				<div class='knit-form-input'>
+					<input type='text' ng-if="!cell.type || cell.type=='input'" placeholder='{{cell.label}}' ng-model='data[cell.field]' name='{{cell.field}}' class='form-control'>
+					<boot-select ng-if="cell.type == 'select'" data-meta='cell.option' data-name='cell.field' data-data='data'></boot-select>
+				</div>
+			</div>
+			<div class='knit-form-group'  ng-if="cell.type && ['textarea'].indexOf( cell.type ) != -1">
+				<div>
+					<span class='required' ng-if="cell.validation && cell.validation.required"></span>
+					{{cell.label}}:
+				</div>
+				<div class='knit-form-input'>
+					<textarea ng-if="cell.type && cell.type=='textarea'" placeholder='{{cell.label}}' ng-model='data[cell.field]' name='{{cell.field}}' class='form-control'></textarea>
+				</div>
+			</div>
+			<div class='knit-error' data-for='{{cell.field}}'></div>
+		</div>
+	</div>
+</form>

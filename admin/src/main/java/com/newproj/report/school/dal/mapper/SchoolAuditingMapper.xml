@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SchoolAuditingMapper">
+	<select id="findSubaccAuditing" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT  
+		school.id AS school_id, school.name AS school_name ,school.type  , school.region_type , school.code  ,
+		auditing.id,auditing.user_id,auditing.report_id,auditing.audit_note,auditing.audit_time,auditing.status ,
+		proc.status AS process_status , school.eduinst_id
+		FROM tb_school school 
+		LEFT JOIN tb_school_auditing auditing ON school.id = auditing.school_id AND auditing.report_id = #{reportingId} AND auditing.user_id = #{userId}
+		LEFT JOIN tb_school_process proc ON school.id = proc.school_id AND proc.report_id = #{reportingId}
+		<where>
+			<if test="name != null">
+				AND school.name LIKE CONCAT('%' , #{name} , '%' )
+			</if>
+			<if test="auditStatus == 0">
+				AND  ( auditing.status IS NULL OR auditing.status != 1 ) AND proc.status IN(1,2) 
+			</if> 
+			<if test="auditStatus == 1">
+				AND auditing.status = 1
+			</if> 
+			<if test="auditStatus == 2">
+				AND ( proc.status IS NULL OR proc.status = 0 )
+			</if> 
+			<if test="schoolCode != null">
+				AND school.code = #{schoolCode}
+			</if>
+			<if test="cityId != null">
+				AND school.city = #{cityId}
+			</if>
+			<if test="countyId != null">
+				AND school.county = #{countyId}
+			</if>
+		</where>
+		GROUP BY school.id
+	</select>
+	
+	<select id="findAuditing" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT  
+		school.id AS school_id, school.name AS school_name ,school.type  , school.region_type , school.code  ,
+		prc.audit_time , prc.status AS process_status , school.eduinst_id
+		FROM tb_school school 
+		LEFT JOIN tb_school_process prc ON school.id = prc.school_id AND prc.report_id = #{reportingId} 
+		<where>
+			<if test="name != null">
+				AND school.name LIKE CONCAT('%' , #{name} , '%' )
+			</if>
+			<if test="processStatus != null and processStatus != 0">
+				AND prc.status = #{processStatus}
+			</if> 
+			<if test="processStatus != null and processStatus == 0">
+				AND ( prc.status = 0 OR prc.status IS NULL )
+			</if> 
+			<if test="schoolCode != null">
+				AND school.code = #{schoolCode}
+			</if>
+			<if test="cityId != null">
+				AND school.city = #{cityId}
+			</if>
+			<if test="countyId != null">
+				AND school.county = #{countyId}
+			</if>
+		</where>
+		GROUP BY school.id
+	</select>
+	
+	<select id="findReporting" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT school.id AS school_id , school.name AS school_name , school.city as city_id  , school.eduinst_id as eduinst_id ,
+			prcss.total_num  , prcss.finish_num  , school.master_name , school.master_phone ,
+			school.code , school.county as county_id , prcss.audit_time , prcss.status AS process_status
+		FROM tb_school school LEFT JOIN tb_school_process prcss ON school.id = prcss.school_id 
+		AND prcss.report_id =  #{reportingId}
+		<where>
+			<if test="cityId != null">
+				AND school.city = #{cityId}
+			</if>
+			<if test="countyId != null">
+				AND school.county = #{countyId}
+			</if>
+			<if test="processStatus != null">
+				<if test="processStatus == 0">
+					AND ( prcss.status = 0 OR prcss.status IS NULL )
+				</if>
+				<if test="processStatus != 0">
+					AND prcss.status = #{processStatus}
+				</if>
+			</if>
+			<if test="schoolName != null">
+				AND school.name LIKE CONCAT('%' , #{schoolName} , '%')
+			</if>
+			<if test="code != null">
+				AND school.code LIKE CONCAT('%' , #{code} , '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="findReportingData" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT quota1.name AS quota1_name , quota2.name AS quota2_name , coll.title , 
+		school_coll.content , coll.validation , coll.id as collection_id , coll.value_type , coll.value_opt
+		FROM tb_schooltype_collection type_coll 
+		LEFT JOIN tb_collection coll ON type_coll.collection_id = coll.id 
+		LEFT JOIN tb_school_collection school_coll ON coll.id = school_coll.collection_id AND school_coll.school_id = #{schoolId} AND school_coll.report_id = #{reportingId} 
+		LEFT JOIN tb_quota quota2 ON quota2.id = coll.quota_id 
+		LEFT JOIN tb_quota quota1 ON quota2.parent_id = quota1.id 
+		WHERE type_coll.school_type = #{schoolType}  and coll.value_type != 'class-import'
+		ORDER BY quota1.rank ASC , quota2.rank ASC
+	</select>
+	
+</mapper>

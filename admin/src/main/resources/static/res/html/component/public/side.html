@@ -1,0 +1,45 @@
+<div class='knit-side'>
+	<template id='knit-icon'>
+		<div class='knit-icon'>
+		</div>
+	</template>
+	<template id='knit-menu'>
+		<div class='knit-menu'>
+			<div class='knit-menu-subject'>
+				<i class='glyphicon glyphicon-paperclip'></i>
+				{{subject}}
+			</div>
+			<ul>
+				<li ng-repeat='(k,v) in menus'>
+					<a ng-href="{{v.url ? v.url : 'javascript:;'}}">
+						<i class="{{v.icon ? v.icon : 'glyphicon glyphicon-th-large'}}"></i>
+						{{v.name}}
+						<span class='knit-menu-ext'>
+							<span ng-if='v.dot != undefined'>
+								<span class='knit-dot'>{{v.dot}}</span>
+							</span>
+							<i ng-if='v.subMenus && v.subMenus.length'>
+								<i class='glyphicon glyphicon-menu-right'></i>
+							</i>
+						</span>
+					</a>
+					<ul ng-if='v.subMenus && v.subMenus.length'>
+						<li ng-repeat='(k,v) in v.subMenus'>
+							<a ng-href="{{v.url ? v.url : 'javascript:;' }}">
+								{{v.name}}
+							</a>
+							<div class='knit-menu-ext'>
+								<div ng-if='v.dot != undefined'>
+									<span class='knit-dot'>{{v.dot}}</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</template>
+	<!-- <knit-menu data-data='fixedCollection' data-subject='自评与绝对班额' ng-if="quotas && quotas.length && principal && principal.instType == 'SCHOOL' && fixedCollection && fixedCollection.length" /> -->
+	<knit-menu data-data='quotas' data-subject='数据填报' ng-if='quotas && quotas.length' />
+	<knit-menu data-data='menus' data-subject='功能菜单' ng-if="menus && menus.length"/>
+</div>

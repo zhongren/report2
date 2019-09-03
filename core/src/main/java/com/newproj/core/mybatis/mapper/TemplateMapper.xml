@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TemplateMapper">
+	<sql id="conditions">
+		<where>
+			<if test="conditions != null">
+				<foreach collection="conditions" item="item" separator=" AND ">
+					<if test="item.value != null and @com.newproj.core.beans.Reflection@isList(item.value)">
+						${item.column} IN (
+							<foreach collection="item.value" item="subItem" separator=",">
+								#{subItem}
+							</foreach>
+						)
+					</if>
+					<if test="item.value != null and !@com.newproj.core.beans.Reflection@isList(item.value)">
+						<if test="item.symbol == 'LIKE'">
+							${item.column} ${item.symbol} CONCAT( '%' , #{item.value} , '%')
+						</if>
+						<if test="item.symbol != 'LIKE'">
+							${item.column} ${item.symbol} #{item.value}
+						</if>
+					</if>
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findList" parameterType="com.newproj.core.mybatis.SearchCriteria" resultType="java.util.Map">
+		SELECT
+			<if test="columns == null">
+				*
+			</if>
+			<if test="columns != null">
+				<foreach collection="columns" index="index" item="item" separator=",">
+					${item}
+				</foreach>
+			</if>
+		FROM
+			${tableName}
+		<include refid="conditions" />
+	</select>
+
+	<insert id="create" parameterType="com.newproj.core.mybatis.UpdateCriteria" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO 
+			${tableName}
+		<foreach collection="updateValues" item="item" separator="," open="(" close=")">
+			<if test="item.value != null">
+				${item.column}
+			</if>
+		</foreach>
+		<foreach collection="updateValues" item="item" separator="," open=" VALUES(" close=")" >
+			<if test="item.value != null">
+				#{item.value}
+			</if> 
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="com.newproj.core.mybatis.UpdateCriteria" >
+		UPDATE 
+			${tableName}
+		<set>
+			<foreach collection="updateValues" item="item" separator=",">
+				<if test="item.value != null">
+					${item.column} = #{item.value}
+				</if>
+			</foreach>
+		</set>
+		<include refid="conditions" />
+	</update>
+	
+	<delete id="delete" parameterType="com.newproj.core.mybatis.UpdateCriteria">
+		DELETE FROM ${tableName} <include refid="conditions" />
+	</delete>
+	
+</mapper>

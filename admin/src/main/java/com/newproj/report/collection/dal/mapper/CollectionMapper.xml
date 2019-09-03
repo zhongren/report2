@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CollectionMapper">
+	<select id="findSchoolCollectionWithQuota" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT coll.* , school_coll.content FROM tb_collection coll 
+		JOIN tb_schooltype_collection type_coll ON coll.id = type_coll.collection_id AND type_coll.school_type= #{schoolType} 
+		LEFT JOIN tb_school_collection school_coll ON school_coll.collection_id = coll.id 
+			AND school_coll.school_id = #{schoolId} AND school_coll.report_id = #{reportingId}
+		WHERE  coll.quota_id = #{quotaId}
+		ORDER BY coll.rank DESC 
+	</select>
+	
+	<select id="findSchoolCollection"  parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT coll.* FROM tb_collection coll 
+		JOIN tb_schooltype_collection type_coll ON coll.id = type_coll.collection_id
+		WHERE type_coll.school_type= #{schoolType} 
+		ORDER BY coll.rank DESC 
+	</select>
+	
+	<select id="findCollectionBySchoolType"  parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT coll.* FROM tb_collection coll
+		JOIN tb_schooltype_collection type_coll ON coll.id = type_coll.collection_id 
+		JOIN tb_school_type type  ON type_coll.school_type = type.id 
+		WHERE type.type = #{type} AND coll.id NOT IN(154 ,155 )
+	</select>
+</mapper>

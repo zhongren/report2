@@ -1,0 +1,31 @@
+<div class='knit-input-group'>
+	<group-input data-form-context='formContext'  ng-if="meta.type == 'group'" data-meta='meta' data-data='data'></group-input>
+	
+	<!-- number类型 -->
+	<input onmousewheel="return false;"  type='number' min="0" style='width:400px;'  placeholder='{{meta.note}}'  name='{{meta.name}}' ng-model='data.value' class='form-control' ng-if="meta.type == 'number'"> 
+	<!-- 文本类型 -->
+	<input type='text' style='width:500px;' name='{{meta.name}}' ng-model='data.value' class='form-control' ng-if="meta.type == 'text'"> 
+	<!-- 多选类型 -->
+	<span  ng-if="meta.type == 'checkbox'">
+		<label ng-repeat='( k , v ) in meta.option'  class='option-group'>
+			<input type='checkbox' name='{{meta.name}}' ng-model='data.value' value="{{v.id}}"> {{v.name}}
+		</label> 
+	</span>
+	<!-- 单选类型 -->
+	<span  ng-if="meta.type == 'radio'">
+		<label ng-repeat='( k , v ) in meta.option' class='option-group'>
+			<input type='radio' name='{{meta.name}}' ng-model='data.value' value="{{v.id}}"> {{v.name}}
+		</label>
+	</span>
+	<!-- 图片类型 -->
+	<file-upload data-form-context='formContext'  ng-if="meta.type == 'img'" data-media-type="image" data-validation="meta.validation" data-value="data.value"></file-upload>
+	<!-- 文档类型 -->
+	<file-upload  data-form-context='formContext' ng-if="meta.type == 'file'" data-media-type="file" data-validation="meta.validation" data-value="data.value"></file-upload>
+	<!-- 绝对班额 -->
+	<class-import ng-if="meta.type == 'class-import'" data-param="data.id"></class-import>
+	<!-- 错误提示 -->
+	<div class='knit-info-group'>
+		<span class='knit-warning' data-warning='{{meta.name}}'></span>
+		<div class='knit-error' data-for='{{meta.name}}'></div>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+admin/.settings/
+admin/access_log*
+admin/logs/
+admin/target/
+core/.settings/
+core/target/
+core/bin/
+admin/.settings/
+admin/target/
+admin/bin/
+.project
+.settings/
+admin/logs/
+admin/work/
+.classpath

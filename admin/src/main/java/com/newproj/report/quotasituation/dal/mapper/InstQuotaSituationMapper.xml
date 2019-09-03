@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="InstQuotaSituationMapper">
+	
+	<!-- 学校标准化建设监测达成情况 -->
+	<select id="findInstSituationReport" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			situation.name AS situation_name , situation.standard_note AS standard_note , 
+			inst_situation.calculated_value AS calculated_value , 
+			inst_situation.eligible_value AS eligible_value
+		FROM 
+			tb_quota_situation situation 
+		LEFT JOIN 
+			tb_inst_quota_situation inst_situation ON situation.id = inst_situation.situation_id 
+			AND ( inst_situation.reporting_id IS NULL OR inst_situation.reporting_id = #{reportingId} )
+		WHERE 
+			inst_situation.inst_id = #{instId} 
+			<if test="@com.newproj.core.beans.Reflection@isList(instType)">
+				<foreach collection="instType" item="item" open="AND situation.inst_type IN (" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="!@com.newproj.core.beans.Reflection@isList(instType)">
+				AND situation.inst_type = #{instType}
+			</if>
+			<if test="@com.newproj.core.beans.Reflection@isList(schoolType)">
+				<foreach collection="schoolType" item="item" open="AND situation.school_type IN (" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="!@com.newproj.core.beans.Reflection@isList(schoolType)">
+				AND situation.school_type = #{schoolType}
+			</if>
+	</select>
+	
+	<!-- 根据采集项获取学校标准化建设监测常态数据表 -->
+	<select  id="findSchoolCollectionReportWithCollection" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			school.name AS school_name , school_collection.content AS content 
+		FROM 
+			tb_school school 
+		JOIN 
+			tb_school_collection school_collection  
+			ON school.id = school_collection.school_id AND school_collection.report_id = #{reportingId}
+			AND school_collection.collection_id = #{collectionId}
+		<where>
+			<if test="schoolId != null">
+				AND school.id = #{schoolId}
+			</if>
+			<if test="countyId != null">
+				AND school.county = #{countyId}
+			</if>
+			<if test="cityId != null">
+				AND school.city = #{cityId}
+			</if>
+			<if test="@com.newproj.core.beans.Reflection@isList(schoolType)">
+				<foreach collection="schoolType" item="item" open="AND school.type IN (" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="!@com.newproj.core.beans.Reflection@isList(schoolType)">
+				AND school.type = #{schoolType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 教育局学校基本达成情况 -->
+	<select id="findEduinstSchoolSituation"  parameterType="java.util.Map" resultType="java.util.Map" >
+		SELECT school.name AS school_name , sit.total , sit.pass , sit.rate 
+		FROM tb_school school JOIN tb_eduinst_school_situation sit ON school.id = sit.school_id AND reporting_id = #{reportingId}
+		WHERE county_id = #{countyId}
+		<if test="schoolTypeList != null">
+			<foreach collection="schoolTypeList" item="item" open="AND school.type IN(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 统计市教育局学校基本达成情况 -->
+	<select id="findCityEduinstSchoolSituation"  parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT school_num , pass_num , school_num_alias.city_id , school_num_alias.county_id FROM (
+			SELECT COUNT(1) AS school_num , county_id , city_id FROM tb_eduinst_school_situation
+			WHERE city_id = #{cityId} AND reporting_id = #{reportingId}
+			<if test="schoolType != null">
+				AND school_type = #{schoolType}
+			</if>
+			GROUP BY county_id
+			) school_num_alias 
+		LEFT JOIN (
+			SELECT COUNT(1) AS pass_num , county_id , city_id  FROM tb_eduinst_school_situation 
+			WHERE city_id = #{cityId} AND reporting_id = #{reportingId}
+			<if test="schoolType != null">
+				AND school_type = #{schoolType}
+			</if>
+			GROUP BY county_id
+		) pass_num_alias ON school_num_alias.county_id = pass_num_alias.county_id
+	</select>
+	
+	<!-- 查询全省所有通过的学生名单 -->
+	<select id="findAllPassSchool" parameterType="java.util.Map" resultType="java.util.Map" >
+		SELECT school.name AS school_name , sit.city_id , sit.county_id FROM tb_eduinst_school_situation sit
+		JOIN tb_school school ON sit.school_id = school.id
+		WHERE sit.rate = 100
+		<if test="cityId != null">
+			AND sit.city_id = #{cityId}
+		</if>
+		<if test="countyId != null">
+			AND sit.county_id = #{countyId}
+		</if>
+	</select>
+</mapper>

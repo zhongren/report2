@@ -1,0 +1,18 @@
+<table class='table table-hover'>
+	<tbody>
+		<tr ng-if='!notice || !notice.length'>
+			<td class='text-center'>{{process}}</td>
+		</tr>
+		<tr ng-repeat='row in notice'>
+			<td width='80%' class='nowrap' >
+				<a ng-href='#/bulletin/{{row.id}}/detail' title='{{row.title}}' >
+					<!-- <span ng-if="row.readNum == 0" style='display:inline-block;width:8px;height:8px;background-color:#b51010;border-radius:8px;position:relative;top:-5px;'></span> -->
+					【{{row.type}}】{{row.title.substring(0,20)}}
+				</a>
+			</td>
+			<td class='nowrap'>
+				{{row.publishTime.substring(0,10)}}
+			</td>
+		</tr>
+	</tbody>
+</table>

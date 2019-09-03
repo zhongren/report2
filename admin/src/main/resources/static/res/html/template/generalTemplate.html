@@ -1,0 +1,161 @@
+<article>
+	<section>
+		<fieldset class='knit-fieldset' id='filter-group' >
+			<legend>
+				<i class='glyphicon glyphicon-filter'></i>
+				条件检索
+			</legend>
+			<filter-group data-meta='filterMeta' data-data='filterParam'/>
+		</fieldset>
+	</section>
+	<!-- <section style='margin:5px 0px;'>
+				
+	</section> -->
+	<section>
+		<div class='knit-widget'>
+			<div class='knit-widget-title'>
+				<div class='knit-widget-icon'>
+					<i class='glyphicon glyphicon-th'></i>
+					{{view.dataTable.title ? view.dataTable.title : '数据列表'}}
+				</div>
+				<div class='knit-widget-tools'>
+					<!-- <i class='glyphicon glyphicon-refresh knit-btn'></i> -->
+					<a href='javascript:;' class='btn btn-primary btn-xs' id='data-create-btn' ng-if='view.tools && ( view.tools.create === true || view.tools.create.show === true) '> 
+						<i class='glyphicon glyphicon-plus'></i> 添加
+					</a> 
+					<a href='javascript:;' class='btn btn-primary  btn-xs' id='data-export-btn' ng-if='view.tools && ( view.tools.exports === true || view.tools.exports.show === true)'> 
+						<i class='glyphicon glyphicon-export'></i> 导出
+					</a> 
+					<a href='javascript:;' class='btn btn-primary  btn-xs' id='data-import-btn' ng-if='view.tools && ( view.tools.imports === true || view.tools.imports.show === true)'> 
+						<i class='glyphicon glyphicon-import'></i> 导入
+					</a>
+				</div>
+			</div>
+			<div class='knit-widget-body'>
+				<table class='table table-hover table-bordered' id='data-list-table'>
+					<thead></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.create' id='data-create-modal' data-style="{{view.create.style||'width:800px'}}" >
+			<form id='data-create-form'>
+				<div class='row' ng-repeat='row in cFormMeta'>
+					<div class='{{cell.className}}' ng-if='cell.hide !== true' ng-repeat='cell in row'>
+						<div class='knit-form-group'  ng-if="!cell.type || ['textarea','fileUpload','formulaInput'].indexOf( cell.type ) == -1">
+							<div class='knit-form-label' style='font-weight:bolder'>
+								<span class='required' ng-if="cell.validation && cell.validation.required === true"></span>
+								{{cell.label}}:
+							</div>
+							<div class='knit-form-input'>
+								<input ng-if="!cell.type || cell.type=='text'" type='text' placeholder='{{cell.label}}' ng-model='cdata[cell.field]' name='{{cell.field}}' class='form-control'>
+								<input ng-if="cell.type=='password'" type='password' placeholder='{{cell.label}}' ng-model='cdata[cell.field]' name='{{cell.field}}' class='form-control'>
+								<boot-select ng-if="cell.type == 'select'"  data-meta='cell.option' data-name='cell.field' data-data='cdata'></boot-select>
+								<timepicker ng-if="cell.type == 'timepicker'" data-name='cell.field' data-rules='cell.validation' data-data='cdata[cell.field]' data-format='cell.format'></timepicker>
+							</div>
+						</div>
+						<div class='knit-form-group' ng-if="cell.type && ['textarea','fileUpload','formulaInput'].indexOf( cell.type ) != -1">
+							<div style='font-weight:bolder'>
+								<span class='required' ng-if="cell.validation && cell.validation.required"></span>
+								{{cell.label}}:
+							</div>
+							<div ng-if="cell.type && cell.type=='textarea'" >
+								<textarea style='{{cell.elementStyle}}' placeholder='{{cell.label}}' ng-model='cdata[cell.field]' name='{{cell.field}}' class='form-control'></textarea>
+							</div>
+							<div ng-if="cell.type && cell.type=='fileUpload'" >
+								<file-upload data-media-type='cell.mediaType' data-validation='cell.validation' data-value='cdata[cell.field]'></file-upload>
+							</div>
+							<div ng-if="cell.type && cell.type=='formulaInput'">
+								<formula-input data-name='cell.field' data-data='cdata[cell.field]' data-config='cell' data-rules='cell.validation'></formula-input>
+							</div>
+						</div>
+						<div class='init-info' style='color:gray;font-size:13px' ng-if='cell.info'>{{cell.info}}</div>
+						<div class='knit-error' data-for='{{cell.field}}'></div>
+					</div>
+				</div>
+			</form>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.edit' id='data-edit-modal' data-style="{{view.edit.style || 'width:800px'}}"  >
+			<form id='data-edit-form'>
+				<div class='row' ng-repeat='row in uFormMeta'>
+					<div class='{{cell.className}}' ng-show='cell.hide !== true' ng-repeat='cell in row'>
+						<div class='knit-form-group' ng-if="!cell.type || ['textarea','fileUpload','formulaInput'].indexOf( cell.type ) == -1">
+							<div class='knit-form-label' style='font-weight:bolder'>
+								<span class='required' ng-if="cell.validation && cell.validation.required === true"></span>
+								{{cell.label}}:
+							</div>
+							<div class='knit-form-input'>
+								<input ng-if="cell.type=='readonly-text'" type='text' readonly placeholder='{{cell.label}}' ng-model='udata[cell.field]' class='form-control'>
+								<input ng-if="!cell.type || cell.type=='text'" type='text' placeholder='{{cell.label}}' ng-model='udata[cell.field]' name='{{cell.field}}' class='form-control'>
+								<boot-select ng-if="cell.type == 'select'"  data-meta='cell.option' data-name='cell.field' data-data='udata'></boot-select>
+								<timepicker ng-if="cell.type == 'timepicker'" data-name='cell.field' data-rules='cell.validation' data-data='udata[cell.field]' data-format='cell.format'></timepicker>
+							</div>
+						</div>
+						<div class='knit-form-group'  ng-if="cell.type && ['textarea','fileUpload','formulaInput'].indexOf( cell.type ) != -1">
+							<div style='font-weight:bolder'>
+								<span class='required' ng-if="cell.validation && cell.validation.required"></span>
+								{{cell.label}}:
+							</div>
+							<div>
+								<textarea ng-if="cell.type && cell.type=='textarea'" style='{{cell.elementStyle}}' placeholder='{{cell.label}}' ng-model='udata[cell.field]' name='{{cell.field}}' class='form-control'></textarea>
+							</div>
+							<div ng-if="cell.type && cell.type=='fileUpload'" >
+								<file-upload data-media-type='cell.mediaType' data-validation='cell.validation' data-value='udata[cell.field]'></file-upload>
+							</div>
+							<div ng-if="cell.type && cell.type=='formulaInput'">
+								<formula-input data-name='cell.field' data-data='udata[cell.field]' data-config='cell' data-rules='cell.validation'></formula-input>
+							</div>
+						</div>
+						<div class='init-info' style='color:gray;font-size:13px' ng-if='cell.info'>{{cell.info}}</div>
+						<div class='knit-error' data-for='{{cell.field}}'></div>
+					</div>
+				</div>
+			</form>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.detail' id='data-detail-modal' data-style='width:800px' >
+			<div class='row' ng-repeat='row in iFormMeta'>
+				<div class='{{cell.className}}' ng-if='cell.hide !== true' ng-repeat='cell in row'>
+					<div class='knit-form-group'>
+						<div class='knit-form-label'>
+							{{cell.label}}:
+						</div>
+						<div class='knit-form-input'>
+							<div class='form-control'>{{idata[cell.field]}}</div>
+						</div>
+					</div>
+					<div class='init-info' style='color:gray;font-size:13px' ng-if='cell.info'>{{cell.info}}</div>
+					<div class='knit-error'></div>
+				</div>
+			</div>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.import' id='data-import-modal' data-style='width:750px' >
+			<form id='data-import-form' enctype="multipart/form-data">
+				<div class='row'>
+					<div class='col-xs-10 col-xs-offset-1'>
+						<div class='input-group'>
+							<span class='input-addon'>
+								选择文件:
+							</span>
+							<input type='file' name="file" class='form-control' placeholder='请选择文件' id='data-import-file'>
+						</div>
+						<div class='error-msg' data-for='data-import-file'></div>
+					</div>
+				</div>
+			</form>
+		</modal-dialog>
+	</section>
+	
+	
+</article>

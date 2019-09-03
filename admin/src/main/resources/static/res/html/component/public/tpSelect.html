@@ -1,0 +1,4 @@
+<select ng-model='data'>
+	<option value='' ng-if="!meta.noHead ">--请选择--</option>
+	<option ng-if="meta && meta.options && meta.options.length" ng-repeat="it in meta.options" value='{{it.id}}'>{{it.name}}</option>
+</select>

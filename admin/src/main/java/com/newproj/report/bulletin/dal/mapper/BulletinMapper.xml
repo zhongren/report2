@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="BulletinMapper">
+	<select id="findBulletin" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM tb_bulletin 
+		<where>
+			type = 'PUBLIC' 
+			<if test="schoolId != null or eduinstId != null">
+				AND status = 1
+				OR
+				<if test="schoolId != null">
+					( school_id = #{schoolId} AND TYPE = 'NOTICE' )
+				</if>
+				<if test="eduinstId != null" >
+					( eduinst_id = #{eduinstId} AND TYPE = 'NOTICE' )
+				</if>
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="categoryCode != null">
+				AND category_code = #{categoryCode}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

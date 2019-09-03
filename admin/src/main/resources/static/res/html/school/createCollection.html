@@ -1,0 +1,53 @@
+<article>
+	<div style='position:absolute;top:0px;left:0px;right:110px;'>
+		<section style='padding-bottom: 10px;border-bottom: 2px solid #30a5ef;' class='knit-pain'>
+			<div style='margin-bottom:10px;'>
+				<div class="progress" style='height:8px;'>
+				  	<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" 
+				  	aria-valuenow="0" aria-valuemax="{{process.finish}}" aria-valuemin="{{process.total}}" style='width:{{process.finishRate}}%'>
+				  	</div>
+				</div>
+				<div class='text-center' style='font-size: 15px;color: gray;'>
+					一共[{{process.total}}]项,当前完成[{{process.finish}}]项,完成进度[{{process.finishRate }}%].
+				</div>
+			</div>
+		</section>
+		<br>
+		<section class='knit-pain'>
+			<fieldset style='padding:10px;'>
+				<legend>{{view.quotaTitle}}</legend>
+				<form id='data-create-form'>
+					<div class='row'>
+						<div class='col-lg-9 col-md-10 col-sm-10 col-xs-12'> 
+							<div class="form-group" data-role='form-group' ng-repeat='( k , v ) in collections'>
+							  	<label class="control-label" >
+							  		<span class='required' ng-if="v.fieldMeta.validation.rules.required"></span>
+							  		{{k+1}}、{{v.title}}:
+							  	</label>
+							  	<multi-input data-meta='v.fieldMeta' data-form-context = 'formContext' data-data='v.data'></multi-input>
+							  	<span class="help-block"></span>
+							</div>
+							<hr>
+							 <div class='row' ng-if="view.editable">
+								<div class='col-xs-12 text-center'>
+									<button class='btn btn-primary' id='data-save-btn' ng-disabled='view.positiveBtn.disabled'>
+										<i class='glyphicon glyphicon-ok'></i>
+										{{view.positiveBtn.text}}
+									</button>
+									<button class='btn btn-danger' id='data-clear-btn' >
+										<i class='glyphicon glyphicon-remove'></i>
+										{{view.nativeBtn.text}}
+									</button>
+								</div>
+							</div> 
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</section>
+	</div>
+	<div class='knit-right-side'>
+		<cmp-rpt-submit data-trigger='eventHandler.collectionSubmitTrigger'></cmp-rpt-submit>
+		<cmp-rpt-export data-type='principal.instType'></cmp-rpt-export>
+	</div>
+</article>

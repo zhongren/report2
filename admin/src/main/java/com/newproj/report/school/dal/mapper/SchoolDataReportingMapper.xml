@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SchoolDataReportingMapper">
+	<select id="findProcessReporting" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT school.id , school_process.status as report_status , school.city as city_id , school.county as county_id
+		FROM tb_school school 
+		LEFT JOIN tb_school_process school_process ON school.id = school_process.school_id AND school_process.report_id = #{reportingId}
+		<where>
+			<if test="cityId != null">
+				AND school.city = #{cityId} 
+			</if>
+			<if test="countyId != null">
+				AND school.county = #{countyId}
+			</if>
+		</where>
+	</select>
+	
+	
+</mapper>

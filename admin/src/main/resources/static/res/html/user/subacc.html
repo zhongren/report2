@@ -1,0 +1,51 @@
+<article>
+	<section>
+		<fieldset class='knit-fieldset' id='filter-group' >
+			<legend>
+				<i class='glyphicon glyphicon-filter'></i>
+				条件检索
+			</legend>
+			<filter-group data-meta='filterMeta' data-data='filterParam'/>
+		</fieldset>
+	</section>
+	<section>
+		<div class='knit-widget'>
+			<div class='knit-widget-title'>
+				<div class='knit-widget-icon'>
+					<i class='glyphicon glyphicon-th'></i>
+					{{view.dataTable.title ? view.dataTable.title : '数据列表'}}
+				</div>
+				<div class='knit-widget-tools'>
+					<a href='javascript:;' class='btn btn-primary btn-xs' id='data-create-btn'> 
+						<i class='glyphicon glyphicon-plus'></i> 添加
+					</a> 
+				</div>
+			</div>
+			<div class='knit-widget-body'>
+				<table class='table table-hover table-bordered' id='data-list-table'>
+					<thead></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.create' id='data-create-modal' data-style='width:600px' >
+			<form-group id='data-create-form' data-meta='cFormMeta' data-data='cdata'></form-group>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.edit' id='data-edit-modal'  data-style='width:600px'>
+			<form-group id='data-edit-form' data-meta='uFormMeta' data-data='udata'></form-group>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.quota' id='data-quota-modal'  data-style='width:600px;'>
+			<div id='quota-tree-view' style='height:500px;overflow:auto'></div>
+		</modal-dialog>
+	</section>
+</article>
+<!-- directive: on-load -->

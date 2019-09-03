@@ -1,0 +1,11 @@
+<div>
+	<ul class='knit-list'>
+		<li ng-repeat="input in inputs">
+			<div ng-if='!input.hide'>
+				<span ng-if='input.title'>{{input.title}}</span>
+				<span style='color:gray' ng-if='input.info'>{{input.info}}</span>
+			</div>
+			<multi-input data-form-context="formContext" data-meta='input.fieldMeta' ng-if='!input.hide' data-data='input.data'></multi-input>
+		</li>
+	</ul>
+</div>

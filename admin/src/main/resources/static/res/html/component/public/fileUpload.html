@@ -1,0 +1,22 @@
+<div>
+	<div class='knit-img-upload-group'>
+		<span class='knit-img-upload' data-index='{{k}}' ng-if="data && data.length" ng-repeat="(k ,v) in data">  
+			<img ng-src="{{v}}" ng-if="mediaType == 'image'" data-role='subimg'>
+			<label class='knit-upload-label' ng-if="mediaType != 'image'" title="{{v.substring( v.lastIndexOf('\/') + 1 )}}">
+				<i  style='font-size:22px;color:#0175ee' class='glyphicon glyphicon-file'></i><br>
+				<a href='{{v}}' title='下载文件'>{{v.substring( v.lastIndexOf('\/') + 1 )}}</a>
+			</label>
+			<span class='knit-img-upload-remove' >&times;</span>
+		</span>
+		<span class='knit-img-upload' ng-if="data.length < validation.rules.maxnum">  
+			<span style='cursor:pointer' class='upload-btn'>
+				<i style='font-size:22px;' class='glyphicon glyphicon-open'></i><br>
+				<span>选择文件</span>
+			</span>
+			<span ng-if='uploading' style='display:block;position:absolute;top:0px;left:0px;bottom:0px;right:0px;width:100%;height:100%;background-color:rgba(0,0,0,0.4);'>
+				<span style='text-align:center;display:block;padding:5px;margin-top:25%;color:#fff'>文件上传中,请稍后...</span>
+			</span>
+			<!-- <span class='knit-img-upload-remove'>&times;</span> -->
+		</span>
+	</div>
+</div>

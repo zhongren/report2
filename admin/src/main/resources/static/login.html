@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>江苏省义务教育优质均衡发展评估系统</title>
+<link href="res/css/login.css" type="text/css" rel="stylesheet">
+<script src='lib/jquery/jquery.min.js'></script>
+<script src='lib/jquery/jquery.json.js'></script>
+<!-- <script src='res/js/util.js'></script> -->
+</head>
+<body>
+	<div class='logo-name'>
+		江苏省义务教育优质均衡发展评估系统
+	</div>
+	<div class="login" id='login-wrapper'>
+		<div class="message">用户登录</div>
+		<div id="darkbannerwrap" class='darkbannerwrap'>
+			<div class='process'>
+				<label></label>
+			</div>
+		</div>
+		<form method="get" id='login-form'>
+			<input name="username" placeholder="请输入用户名"  type="text">
+			<hr class="hr15">
+			<input name="password" placeholder="请输入密码"   type="password">
+			<hr class="hr15">
+			<!-- <div class='row'>
+				<div class='cell-6'>
+					<input name="verifyCode" placeholder="验证码"  type="text">
+				</div>
+				<div class='cell-6'>
+					<img src='' class='verify-img'>
+				</div>
+			</div> -->
+			<input value="登录" style="width: 100%;" name='login-submit-btn' type="button">
+			<hr class="hr20">
+			 <a href='javascript:;' id='forgot-btn'>忘记密码(仅限学校账号)</a>
+		</form>
+	</div>
+
+	<div class="login" id='passwd-wrapper' style='display:none'>
+		<div class="message">忘记密码(仅限学校账号)</div>
+		<div id="darkbannerwrap" class='darkbannerwrap'>
+			<div class='process'>
+				<label></label>
+			</div>
+		</div>
+		<form method="post" id='passwd-form'>
+			<input name="username" placeholder="用户名"  type="text">
+			<hr class="hr15">
+			<input name="phone" placeholder="校长/副校长/填报员手机号"   type="text">
+			<hr class="hr15">
+			<div class='row'>
+				<div class='cell-6'>
+					<input name="verifyCode" placeholder="验证码"  type="text">
+				</div>
+				<div class='cell-6'>
+					<img src='verifyCode/get' class='verify-img' title='点击刷新' id='passwd-reset-verify'>
+				</div>
+			</div>
+			<hr class="hr15">
+			<input value="重置密码" style="width: 100%;" name='submit-btn' type="button">
+			<hr class="hr20">
+			<a href='javascript:;' id='backto-login-btn'>返回登陆</a>
+		</form>
+	</div>
+
+	<div class="copyright">
+		<p>技术支持:苏州码农云科技有限公司&nbsp;监制:江苏省教育评估院<p>
+		<p>版权所有:©江苏经贸职业技术学院(江苏商业管理干部学院)&nbsp;苏ICP备05067739号-3</p>
+		<p>江宁校区:江宁大学城龙眠大道180号&nbsp;211168&nbsp;光华校区:南京市光华路石门坎104号&nbsp;21007</p>
+	</div>
+	<script>
+
+		var roleIndexPage = {
+			'DEF' 	: 	'index.html' ,
+			'SYS,PROVINCE,PROVINCE_SUBACC,CITY,CITY_SUBACC' 	:	'index.html#/reporting/countyProcessBoard'
+		};
+		var loginHandler = {
+			init 	: 	function(){
+				this.modal = '#login-wrapper' ;
+				var _this = this ;
+				this.form = '#login-form' ;
+				$(this.form).find('[name=login-submit-btn]').bind('click' , function(){
+					_this.login( function( data ){
+						_this.onLoginSuccess( data ) ;
+					} , function(){
+						_this.afterLogin() ;
+					} );
+				});
+				$(this.modal).show() ;
+				$('#forgot-btn').on('click',function(){
+					$(_this.modal).stop(true).fadeOut( function(){
+						$(passwdForgetHandler.modal).stop(true).fadeIn() ;
+					});
+				});
+				return this ;
+			},
+			resetForm 	: 	function(){
+				$(this.form)[0].reset() ;
+				return this ;
+			},
+			msg	: function( className , text )	{
+				$('#login-wrapper .process label').attr('class' , className ).html( text ) ;
+				return this ;
+			},
+			validate 	: 	function(){
+				var param = {
+					username 	: 	$(this.form).find('[name=username]').val() ,
+					password 	: 	$(this.form).find('[name=password]').val()
+				} ;
+				if( /^\s*$/.test( param.username ) ){
+					this.msg( 'invalid' , '请输入用户名!') ;
+					return false ;
+				}else if( param.username.length >= 30 ){
+					this.msg('invalid' , '用户名长度不能超过30个字符!') ;
+					return false ;
+				}else if( /^\s*$/.test( param.password ) ){
+					this.msg('invalid' , '请输入登录密码!') ;
+					return false ;
+				}
+				return param ;
+			},
+			beforeLogin 	: 	function(){
+				this.msg('success' , '正在登录中,请稍后...') ;
+			},
+			afterLogin 		: 	function(){
+			},
+			login 	: 	function( callback , complete ){
+				if(navigator.userAgent.indexOf("Trident")>0){
+					alert("不支持IE内核浏览器,请切换浏览器或浏览器模式");
+					return false ;
+				}
+				var _this = this ;
+				var param ;
+				if( !( param = this.validate() ) )
+					return false ;
+				this.beforeLogin() ;
+				$.ajax({
+					url  	: 	'user/login' ,
+					type 	:	'post' ,
+					dataType: 	'json' ,
+					data 	:	$.toJSON( param ) ,
+					success	: 	function( result ){
+						if( result.code != 0 ){
+							_this.msg('invalid' , result.message ) ;
+							return false ;
+						}
+						callback( result.data ) ;
+					},
+					error 	: 	function(){
+						_this.msg('invalid' , '服务器请求出错,请重试!' ) ;
+					},
+					complete 	: 	function( ){
+						if( typeof complete == 'function' )
+							complete() ;
+					},
+					contentType 	:	'application/json;charset=UTF-8'
+				});
+			},
+			onLoginSuccess 	: 	function( data ){
+				this.msg('success' , '登录成,页面跳转中,请稍后...') ;
+				var successPath = roleIndexPage['DEF'] ;
+				for( var key in roleIndexPage ){
+					if( key.split(',').indexOf( data['roleCode'] ) != -1 ){
+						successPath = roleIndexPage[key] ;
+					}
+				}
+				location.href = successPath ;
+			}
+		}.init() ;
+
+		var passwdForgetHandler = {
+			init 	: function(){
+				this.modal = '#passwd-wrapper' ;
+				this.form = '#passwd-form' ;
+				var _this = this ;
+				$('#passwd-reset-verify').on('click' , function(){
+					$(this).attr('src' , $(this).attr('src') + '?' + new Date().getTime() ) ;
+				});
+				$(this.modal).find('[name=submit-btn]').on('click' , function(){
+					_this.doSubmit() ;
+				}) ;
+				$(this.modal).hide() ;
+				$('#backto-login-btn').on('click' , function(){
+					$(_this.modal).stop(true).fadeOut(function(){
+						$(loginHandler.modal).stop(true).fadeIn() ;
+					}) ;
+				});
+				return this ;
+			},
+			resetForm 	: 	function(){
+				$(this.form)[0].reset() ;
+				this.msg('success' , '') ;
+				return this ;
+			},
+			msg	: function( className , text )	{
+				$(this.modal).find('.process label').attr('class' , className ).html( text ) ;
+				return this ;
+			},
+			beforSubmit 	: 	function(){
+				var _this = this ;
+				this.msg('success' , '服务器处理中,请稍等...') ;
+				return true ;
+			},
+			validate 		: 	function( ){
+				var _this = this ;
+				var data = {
+					account 	: 	$(_this.form).find('[name=username]').val() ,
+					verifyCode 	: 	$(_this.form).find('[name=verifyCode]').val() ,
+					phone 		: 	$(_this.form).find('[name=phone]').val()
+				}
+				if( !data['account'] || /^\s*$/.test( data['account']  ) ){
+					this.msg( 'invalid' , '请输入登陆账号!') ;
+					return false ;
+				}else if( !data['verifyCode'] || /^\s*$/.test(data['verifyCode'] ) ){
+					this.msg( 'invalid' , '请输入验证码!') ;
+					return false ;
+				}else if( !data['phone'] || /^\s*$/.test(data['phone']) ){
+					this.msg( 'invalid' , '请输入手机号!') ;
+					return false ;
+				}
+				return data ;
+			},
+			doSubmit 		: 	function( ){
+				var _this = this ;
+				var param ;
+				if( !( param = this.validate() ) )
+					return false ;
+				this.beforSubmit() ;
+				$.ajax({
+					url  	: 	'school/forgetPasswd' ,
+					type 	: 	'put' ,
+					dataType: 	'json' ,
+					data 	: 	$.toJSON( param ) ,
+					success : 	function( result ){
+						if( result.code != 0 )
+							return _this.msg('invalid', result.message ) ;
+						_this.onSuccess( result.data ) ;
+					},
+					error 	:	function(){
+						_this.msg('invalid' , '服务器请求出错,请重试!' ) ;
+					},
+					contentType 	:	'application/json;charset=UTF-8'
+				});
+			},
+			onSuccess 	: 	function( data ){
+				var _this = this ;
+				this.resetForm() ;
+				this.msg('success' , '密码重置成功!') ;
+			}
+		}.init() ;
+
+	</script>
+</body>
+</html>

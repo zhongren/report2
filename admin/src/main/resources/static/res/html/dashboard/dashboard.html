@@ -1,0 +1,30 @@
+<article>
+	<div class='row'>
+		<div class='col-xs-6'>
+			<div class='knit-card'>
+				<div class='knit-card-header'>
+					<div class='knit-card-title'>
+						<i class='glyphicon glyphicon-info-sign'></i>
+						系统消息
+					</div>
+					<!-- <div class='pull-right'>
+						<a href='#/bulletin'>更多</a>
+					</div> -->
+				</div>
+				<div class='knit-card-body' style='height:300px;position:relative'>
+					<cmp-notice></cmp-notice>
+				</div>
+			</div>
+		</div>
+		<div class='col-xs-6' ng-if="module.reportingChart === true">
+			<div class='knit-card' >
+				<div class='knit-card-header'>
+					<div class='knit-card-title'>学校填报整体进度监测</div>
+				</div>
+				<div class='knit-card-body'  style='height:300px;position:relative'>
+					<county-school-reporting-chart data-height='280'></county-school-reporting-chart>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>

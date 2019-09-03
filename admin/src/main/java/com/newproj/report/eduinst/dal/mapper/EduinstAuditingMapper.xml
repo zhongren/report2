@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EduinstAuditingMapper">
+	<select id="findAuditing" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT eduinst.city_id , eduinst.county_id , eduinst.id AS eduinst_id , eduinst.name AS eduinst_name , 
+			eduinst.code , prcss.audit_time ,
+			prcss.status AS process_status 
+		FROM tb_eduinst eduinst 
+		LEFT JOIN tb_eduinst_process prcss ON eduinst.id = prcss.inst_id AND prcss.report_id = #{reportingId}
+		WHERE eduinst.type = 'COUNTY'
+		<if test="name != null">
+			AND eduinst.name LIKE CONCAT('%' , #{name} , '%' )
+		</if>
+		<if test="processStatus == 0">
+			AND ( prcss.status = 0 OR prcss.status IS NULL )
+		</if>
+		<if test="processStatus != null and processStatus != 0">
+			AND prcss.status = #{processStatus}
+		</if>
+		<if test="eduinstCode != null">
+			AND eduinst.code = #{eduinstCode}
+		</if>
+		<if test="cityId != null">
+			AND eduinst.city_id = #{cityId}
+		</if>
+		<if test="countyId != null">
+			AND eduinst.county_id = #{countyId}
+		</if>
+		GROUP BY eduinst.id
+	</select>
+	
+	<select id="findSubaccAuditing" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT eduinst.city_id , eduinst.county_id , eduinst.id AS eduinst_id , eduinst.name AS eduinst_name , eduinst.code  ,
+			prcss.status AS process_status ,
+			auditing.id,auditing.user_id,auditing.report_id,auditing.audit_note,auditing.audit_time,auditing.status 
+		FROM tb_eduinst eduinst 
+		LEFT JOIN tb_eduinst_process prcss ON eduinst.id = prcss.inst_id AND prcss.report_id = #{reportingId}
+		LEFT JOIN tb_eduinst_auditing auditing ON eduinst.id = auditing.eduinst_id AND auditing.report_id = #{reportingId} AND auditing.user_id = #{userId}
+		WHERE eduinst.type = 'COUNTY'
+		<if test="name != null">
+			AND eduinst.name LIKE CONCAT('%' , #{name} , '%' )
+		</if>
+		<if test="status == 0">
+			AND ( auditing.status != 1 OR auditing.status IS NULL ) AND prcss.status IN(1,2) 
+		</if> 
+		<if test="status == 1">
+			AND auditing.status = 1 
+		</if> 
+		<if test="status == 2">
+			AND ( prcss.status IS NULL OR prcss.status = 0 )
+		</if> 
+		<if test="eduinstCode != null">
+			AND eduinst.code = #{eduinstCode}
+		</if>
+		<if test="cityId != null">
+			AND eduinst.city_id = #{cityId}
+		</if>
+		<if test="countyId != null">
+			AND eduinst.county_id = #{countyId}
+		</if>
+		GROUP BY eduinst.id
+	</select>
+	
+	<select id="findReporting" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT eduinst.id AS eduinst_id , eduinst.name AS eduinst_name , eduinst.city_id , eduinst.code , 
+		eduinst.county_id , prcss.audit_time , IFNULL( prcss.status , 0 ) AS process_status ,
+		prcss.total_num , prcss.finish_num
+		FROM tb_eduinst eduinst LEFT JOIN tb_eduinst_process prcss ON eduinst.id = prcss.inst_id AND report_id = #{reportingId}
+		<where>
+			eduinst.type = 'COUNTY'
+			<if test="cityId != null">
+				AND eduinst.city_id = #{cityId}
+			</if>
+			<if test="countyId != null">
+				AND eduinst.county_id = #{countyId}
+			</if>
+			<if test="processStatus != null">
+				<if test="processStatus == 0">
+					AND ( prcss.status = 0 OR prcss.status IS NULL )
+				</if>
+				<if test="processStatus != 0">
+					AND prcss.status = #{processStatus}
+				</if>
+			</if>
+			<if test="eduinstName != null">
+				AND eduinst.name LIKE CONCAT('%' , #{eduinstName} , '%')
+			</if>
+			<if test="code != null">
+				AND eduinst.code LIKE CONCAT('%' , #{code} , '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="findReportingData" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT quota1.name AS quota1_name , quota2.name AS quota2_name , coll.title , coll.value_type , eduinst_coll.content
+		FROM tb_eduinst_collection_map eduinst_coll_map 
+		LEFT JOIN tb_collection coll ON eduinst_coll_map.collection_id = coll.id AND report_id = #{reportingId}
+		LEFT JOIN tb_eduinst_collection eduinst_coll ON coll.id = eduinst_coll.collection_id AND eduinst_coll.report_id = #{reportingId} AND  eduinst_coll.inst_id = #{eduinstId} 
+		LEFT JOIN tb_quota quota2 ON quota2.id = coll.quota_id 
+		LEFT JOIN tb_quota quota1 ON quota2.parent_id = quota1.id 
+		WHERE eduinst_coll_map.inst_type = 'COUNTY'
+	</select>
+	
+</mapper>

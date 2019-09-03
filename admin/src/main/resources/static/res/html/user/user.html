@@ -1,0 +1,193 @@
+<article>
+	<section>
+		<fieldset class='knit-fieldset' id='filter-group' >
+			<legend>条件检索</legend>
+			<filter-group data-meta='filterMeta' data-data='filterParam'/>
+		</fieldset>
+	</section>
+	<section>
+		<div class='row'>
+			<div class='col-sm-12'>
+				<a href='javascript:;' class='btn btn-primary' id='data-create-btn'> 
+					<i class='glyphicon glyphicon-plus'></i> 添加
+				</a> 
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class='knit-widget'>
+			<div class='knit-widget-title'>
+				<div class='knit-widget-icon'>
+					<i class='glyphicon glyphicon-th'></i>
+					标题
+				</div>
+				<div class='knit-widget-tools'>
+					<i class='glyphicon glyphicon-refresh knit-btn'></i>
+				</div>
+			</div>
+			<div class='knit-widget-body'>
+				<table class='table table-hover table-bordered' id='data-list-table'>
+					<thead></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.create' id='data-create-modal'>
+			<form id='data-create-form'>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校标识:</div>
+							<div class='knit-form-input'>
+								<input type='text' ng-model='crtData.code' name='code' class='form-control'>
+							</div>
+						</div>
+						<div class='knit-error' data-for='code'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校名称:</div>
+							<div class='knit-form-input'>
+								<input type='text' ng-model='crtData.name' name='name' class='form-control'>
+							</div>
+						</div>
+						<div class='knit-error' data-for='name'></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>所属城市:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-data='crtData.city' data-meta='crtOption.city' name='city'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='city'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>所属区县:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='crtOption.county' data-data='crtData.county' name='county'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='county'></div>
+					</div>
+				</div>
+				<div clas='row'>
+					<div class='col-xs-offset-6 col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>城乡分类:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='crtOption.regionType' data-data='crtData.regionType' name='regionType'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='regionType'></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>办学类型:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='crtOption.runBy' data-data='crtData.runBy' name='runBy'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='runBy'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校类型:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='crtOption.schoolType' data-data='crtData.type' name='type'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='type'></div>
+					</div>
+				</div>
+			</form>
+		</modal-dialog>
+	</section>
+	
+	<section>
+		<modal-dialog data-meta='view.create' id='data-edit-modal'>
+			<form id='data-edit-form'>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校标识:</div>
+							<div class='knit-form-input'>
+								<input type='text' ng-model='editData.code' name='code' class='form-control'>
+							</div>
+						</div>
+						<div class='knit-error' data-for='code'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校名称:</div>
+							<div class='knit-form-input'>
+								<input type='text' ng-model='editData.name' name='name' class='form-control'>
+							</div>
+						</div>
+						<div class='knit-error' data-for='name'></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>所属城市:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-data='editData.city' data-meta='editOption.city' name='city'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='city'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>所属区县:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='editOption.county' data-data='editData.county' name='county'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='county'></div>
+					</div>
+				</div>
+				<div clas='row'>
+					<div class='col-xs-offset-6 col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>城乡分类:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='editOption.regionType' data-data='editData.regionType' name='regionType'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='regionType'></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>办学类型:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='editOption.runBy' data-data='editData.runBy' name='runBy'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='runBy'></div>
+					</div>
+					<div class='col-xs-6'>
+						<div class='knit-form-group'>
+							<div class='knit-form-label required'>学校类型:</div>
+							<div class='knit-form-input'>
+								<tp-select class='form-control' data-meta='editOption.schoolType' data-data='editData.type' name='type'/>
+							</div>
+						</div>
+						<div class='knit-error' data-for='type'></div>
+					</div>
+				</div>
+			</form>
+		</modal-dialog>
+	</section>
+</article>
+<!-- directive: on-load -->

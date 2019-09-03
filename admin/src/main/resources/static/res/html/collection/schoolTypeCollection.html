@@ -1,0 +1,48 @@
+<article>
+	<section style='display:block;min-width:800px;overflow:auto'>
+		<div class='row'>
+			<div class='col-xs-4'>
+				<div class='panel panel-default'>
+					<div class='panel-body'>
+						<div id='left-side-panel' style='font-size:13px;'></div>
+					</div>
+				</div>
+			</div>
+			<div class='col-xs-8'>
+				<div id='right-side-panel' style='font-size:13px;'  class='knit-pain'>
+					<fieldset>
+						<legend>选择学校类型</legend>
+						<div ng-show='typeEditable'>
+							<div class='panel panel-default'>
+								<div class='panel-body text-center'>
+									<div class='checkbox'>
+										<label ng-repeat='type in schoolTypes' style='margin:3px 20px 3px 0px'>
+											<input ng-model='cdata.schoolType[type.id]' name='{{type.id}}' type='checkbox'> {{type.name}}
+										</label>
+									</div>
+									<div class='checkbox'>
+										<label><input type='checkbox' ng-model='typeAll' name='typeAll'>全选</label>
+									</div>
+									<hr>
+									<div class='text-center'>
+										<button class='btn btn-default btn-sm' id='data-reset-btn'>
+											<i class='glyphicon glyphicon-refresh'></i>
+											重置数据
+										</button>
+										<button class='btn btn-primary btn-sm' id='data-create-btn'>
+											<i class='glyphicon glyphicon-ok'></i>
+											保存数据
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-hide='typeEditable' class='text-center' style='font-size:16px;color:gray'>
+							请选择左侧采集项 ,设置学校类型 .
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</section>
+</article>

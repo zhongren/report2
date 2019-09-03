@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EduinstCollectionMapper">
+	<select id="findEduinstCollection" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT coll.*,ec.content FROM tb_collection coll
+		left JOIN tb_eduinst_collection_map collmap ON coll.id = collmap.collection_id AND collmap.report_id = #{reportId}
+		left join tb_eduinst_collection as ec on ec.collection_id = coll.id AND  ec.inst_id =  #{eduinstId}
+		WHERE collmap.inst_type = #{eduinstType}
+		<if test="quotaId != null">
+			AND coll.quota_id = #{quotaId}
+		</if>
+		order  by coll.code
+	</select>
+	
+	<select id="findEduinstIsEnd" parameterType="java.util.Map" resultType="java.util.Map">
+		select mp.quota_id as qid,count(mp.quota_id) as allCount , count(c.collection_id) as hasCount
+  				 from tb_eduinst_collection_map  as mp 
+	 			 left join  tb_eduinst_collection as c on c.collection_id = mp.collection_id  and c.inst_id = #{eduinstId} and c.report_id = #{reportId}
+		where  mp.inst_type = #{eduinstType} and mp.report_id  =  #{reportId}
+		GROUP BY mp.quota_id
+	</select>
+	
+	<select id="findEduCollection" parameterType="java.util.Map" resultType="java.util.Map">
+		select  e.code , e.`name` , ec.quota_id , ec.collection_id , ec.content from tb_eduinst_collection as ec  INNER JOIN tb_eduinst as e 
+		on e.id = ec.inst_id  and ec.report_id = #{reportId} ORDER BY e.city_id ,e.county_id , e.id , ec.quota_id , ec.id
+	</select>
+	
+	<select id="finAllCollections" resultType="java.lang.String">
+		SELECT c.title from tb_eduinst_collection_map as cm inner join tb_collection as c 
+		on c.id = cm.collection_id ORDER BY c.id 
+	</select>
+
+	<select id="findPrimaryClssSize" resultType="com.newproj.report.export.bean.ClssSizeBean">
+		select name,code,type,
+		(select name from tb_city where id=s.city) as city,
+		(select name from tb_city where id=s.county) as county,
+		(select content from tb_school_collection where collection_id=1 and
+		school_id=s.id limit 1) as stype,
+		(select content from tb_school_collection where collection_id=2 and
+		school_id=s.id limit 1) as oldCity,
+		(select name from tb_dict where type='REGION_TYPE' and code=s.region_type) as
+		regionType,
+		if((select max(nums) from tb_school_class where year=1 and school_id=s.id and
+		name_num>0 and name_num &lt; 7 GROUP BY school_id) >=45,'不合格' ,'合格') as
+		hege
+		from tb_school as s where type in ('500021','500026','500024') order by s.city,s.county
+	</select>
+	
+		<select id="findMiddleClssSize" resultType="com.newproj.report.export.bean.ClssSizeBean">
+		select name,code,type,
+		(select name from tb_city where id=s.city) as city,
+		(select name from tb_city where id=s.county) as county,
+		(select content from tb_school_collection where collection_id=1 and
+		school_id=s.id limit 1) as stype,
+		(select content from tb_school_collection where collection_id=2 and
+		school_id=s.id limit 1) as oldCity,
+		(select name from tb_dict where type='REGION_TYPE' and code=s.region_type) as
+		regionType,
+		if((select max(nums) from tb_school_class where year=1 and school_id=s.id and
+		name_num>6 and name_num &lt; 10 GROUP BY school_id) >=50,'不合格' ,'合格') as
+		hege
+		from tb_school as s where type in ('500042','500026','500022','500024')
+		order by s.city,s.county
+	</select>
+	
+
+</mapper>
