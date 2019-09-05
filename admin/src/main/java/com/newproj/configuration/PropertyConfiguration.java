@@ -6,12 +6,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class PropertyConfiguration {
 
 	//文件服务器根路径（保存路径:根路径/相对路径/文件目录文件名）
-	private String fileUploadPath 	= "D:/workspace/tools/nginx11111/nginx_1.11.11/html/" ;
+	//private String fileUploadPath 	= "D:/workspace/tools/nginx11111/nginx_1.11.11/html/" ;
+	private String fileUploadPath 	= "/home/yzjh" ;
+
 	//文件保存相对路径
-	private String fileUploadMapping ="/upload/server/" ;
+	//private String fileUploadMapping ="/upload/server/" ;
+	private String fileUploadMapping ="/upload/" ;
 	//文件访问域名(访问路径:域名/相对路径/文件目录文件名)
-	private String fileServerDomain = "http://localhost/" ;
-	
+	private String fileServerDomain = "http://58.192.73.16/static";
+	//private String fileServerDomain = "http://localhost/" ;
+
 	public String getFileUploadPath() {
 		return fileUploadPath;
 	}
@@ -30,5 +34,5 @@ public class PropertyConfiguration {
 	public void setFileServerDomain(String fileServerDomain) {
 		this.fileServerDomain = fileServerDomain;
 	}
-	
+
 }

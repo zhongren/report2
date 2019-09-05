@@ -155,7 +155,7 @@ public class SchoolCollectionAction extends RestActionSupporter{
 		Reporting reporting = null ;
 		if( ( reporting = reportingService.getPresent() ) == null )
 			return success( null ) ;
-		include(Collection.class , "id","code","title","quotaId","memo","valueType","valueOpt","validation","note","rank","content");
+		include(Collection.class , "id","code","title","quotaId","memo","valueType","valueOpt","validation","note","rank","content","type");
 
 		if( InstType.parse( Subject.getUser().getInstType() ) == InstType.EDUINST )
 			return success( findEduinstCollectionByQuota(

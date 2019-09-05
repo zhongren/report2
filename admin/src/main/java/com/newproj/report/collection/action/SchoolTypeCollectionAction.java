@@ -29,10 +29,10 @@ public class SchoolTypeCollectionAction  extends RestActionSupporter{
 
 	@Autowired
 	private QuotaService quotaService ;
-	
+
 	@Autowired
 	private CollectionService collectionService ;
-	
+
 	@Get("/collectionWithQuota")
 	public String findQuotaCollection(){
 		List<Quota> quotas = quotaService.findList( new MapParam<String,Object>().push("level" , 2 ).push("type" , QuotaType.SCHOOL ),
@@ -40,7 +40,7 @@ public class SchoolTypeCollectionAction  extends RestActionSupporter{
 		if( quotas == null || quotas.isEmpty() )
 			return success( null ) ;
 		List<Collection> collections = collectionService.findList(new MapParam<String,Object>()
-				.push("quotaId" , JoinUtil.fieldsValue(quotas, "id") ) , null , Collection.class ) ;
+				.push("quotaId" , JoinUtil.fieldsValue(quotas, "id") ).push("type",0) , null , Collection.class ) ;
 		for( Quota quota : quotas ){
 			quota.setCollections( new ArrayList<Collection>() );
 			for( Collection collection : collections ){
@@ -50,13 +50,13 @@ public class SchoolTypeCollectionAction  extends RestActionSupporter{
 		}
 		return success( quotaService.quotaRank( quotaService.structSubQuota( quotas ) ) ) ;
 	}
-	
+
 	@Get("/{collectionId}/types")
 	public String findCollectionSchoolType( @PathVariable("collectionId") int collectionId ){
 		List<SchoolTypeCollection> dataList = collectionService.findTypeCollection( null , collectionId ) ;
 		return success( dataList );
 	}
-	
+
 	@Post("/{collectionId}/types")
 	public String createTypeCollection(  @PathVariable("collectionId") int collectionId  ,
 			@RequestBody @Validated(CGroup.class ) List<SchoolTypeCollectionParam> params ){

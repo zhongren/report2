@@ -21,8 +21,15 @@ public class Collection {
 	private Integer type ;
 	private String content; 	//采集内容
 
+	public Integer getType() {
+		return type;
+	}
 
-	public void setId ( Integer id ){
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public void setId (Integer id ){
 		this.id = id ;
  	}
 	public Integer getId ( ) {
