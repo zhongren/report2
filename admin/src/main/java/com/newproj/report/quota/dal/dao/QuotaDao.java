@@ -17,9 +17,9 @@ public class QuotaDao extends AbstractBaseMapper{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public <T> List<T> findSchoolQuota( Integer schoolType , int reportId , Class<T> clazz ){
 		Map<String,Object> param = new HashMap<String,Object>() ;
 		param.put("schoolType", schoolType );
@@ -30,7 +30,7 @@ public class QuotaDao extends AbstractBaseMapper{
 		handleHumpKey(dataList); //处理驼峰规则映射 .
 		return BeanUtil.convertMapList( dataList , clazz) ;
 	}
-	
+
 	public <T> List<T> findEduinstQuota( String eduinstType , int reportId , Class<T> clazz ){
 		Map<String,Object> param = new HashMap<String,Object>() ;
 		param.put("instType", eduinstType );

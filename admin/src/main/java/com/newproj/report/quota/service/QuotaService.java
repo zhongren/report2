@@ -24,24 +24,25 @@ import com.newproj.report.quota.dal.dao.SubaccountQuotaDao;
 import com.newproj.report.quota.dto.Quota;
 import com.newproj.report.quota.dto.SubaccountQuota;
 import com.newproj.report.quota.dto.SubaccountQuotaParam;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class QuotaService extends AbstractBaseService{
 
 	@Autowired
 	private QuotaDao quotaDao ;
-	
+
 	@Autowired
 	private SubaccountQuotaDao subaccQuotaDao ;
-	
+
 	@Autowired
 	private EduinstCollectionDao eduinstCollectionDao ;
-	
+
 	@Override
 	public void init() {
 		setMapper( quotaDao ) ;
 	}
-	
+
 	public List<Quota> quotaRank( List<Quota> quotas ){
 		if( quotas == null || quotas.isEmpty() ){
 			return null ;
@@ -62,11 +63,11 @@ public class QuotaService extends AbstractBaseService{
 		quotas = Arrays.asList( array ) ;
 		return quotas ;
 	}
-	
+
 	public List<Quota> findSchoolQuota( Integer schoolType , int reportId ){
 		return quotaDao.findSchoolQuota( schoolType , reportId , Quota.class ) ;
 	}
-	
+
 	public List<Quota> findEduinstQuota( String eduinstType , int reportId ){
 
 		List<Quota>  list = quotaDao.findEduinstQuota(eduinstType, reportId, Quota.class );
@@ -78,18 +79,19 @@ public class QuotaService extends AbstractBaseService{
 			 int qid = mp.get("qid");
 			 countMap.put(qid, all >has?false:true );
 		}
+		if(!CollectionUtils.isEmpty(list)){
 		for(Quota q : list) {
 			boolean res = countMap.get(q.getId());
 			q.setFinished(res);
-		}
+		}}
 		return  list;
 	}
-	
+
 	public List<Quota> structSubQuota( List<Quota> dataList ){
 		if( dataList == null || dataList.isEmpty() ){
 			return null ;
 		}
-		List<Quota> quota1List = quotaDao.findBeanListBy("id", 
+		List<Quota> quota1List = quotaDao.findBeanListBy("id",
 				JoinUtil.fieldsValue( dataList , "parentId"), Quota.class  ) ;
 		if( quota1List == null || quota1List.isEmpty() ){
 			return dataList ;
@@ -105,7 +107,7 @@ public class QuotaService extends AbstractBaseService{
 		}
 		return quota1List ;
 	}
-	
+
 	public List<Integer> findSubaccQuota( Integer ... usersId ){
 		if( usersId == null || usersId.length == 0 )
 			return null ;
@@ -116,13 +118,13 @@ public class QuotaService extends AbstractBaseService{
 		List<Integer> quotasId = new ArrayList<Integer>() ;
 		for( SubaccountQuota subaccQuota : subaccQuotas )
 			quotasId.add( subaccQuota.getQuotaId() ) ;
-		
+
 		return quotasId ;
 	}
-	
+
 	/**
 	 * 更新子账号二级指标关系 .
-	 * 
+	 *
 	 * @param subaccId
 	 * @param params
 	 */

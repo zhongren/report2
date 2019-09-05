@@ -7,11 +7,11 @@
 		JOIN tb_quota quota ON coll.quota_id = quota.id
 		WHERE school_coll.school_type = #{schoolType}
 	</select>
-	
+
 	<select id="findEduinstQuota" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT DISTINCT quota.* FROM tb_quota quota
-		JOIN tb_collection coll ON quota.id = coll.quota_id 
+		JOIN tb_collection coll ON quota.id = coll.quota_id
 		JOIN tb_eduinst_collection_map instmap ON coll.id = instmap.collection_id AND instmap.report_id = #{reportId}
-		WHERE instmap.inst_type = #{instType}
+	    WHERE instmap.inst_type = #{instType}
 	</select>
 </mapper>
